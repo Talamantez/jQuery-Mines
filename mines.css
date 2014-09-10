@@ -42,31 +42,51 @@
   padding: 0px;
   border-radius: 2px;
   background-color: #456321;
-  font-size: 2em;
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
   border: 4px solid #222;
+  position: relative;
+  display: inline-block;
+  float: left;
 }
 
 .cleared-square{
-  background-color: #252b30;
-  font-weight: "bold";
+  background-color: #0000FF;
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+  float: left;
 }
 
 .exploded-square{
   background-color: #FF0000;
-  font-weight: "bold";
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+  float: left;
 }
 
 .unchecked-square{
   width:100%;
   height:100%;
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+  float: left;
 }
 
 .danger-square{
   width:100%;
   height:100%;
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+  float: left;
 }
 
-.awesome-zurb{
+
+button{
   background: #222;
   display: inline-block;
   padding: 5px 10px 6px;

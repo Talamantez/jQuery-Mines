@@ -23,7 +23,7 @@ function layGrid(){
          $('#column-'+j).append("<div class = 'mine-square' id ='mine-square-"+mineSquareCount+"' ><div class='unchecked-square'></div></div>");
          mineSquareCount += 1;
          console.log(mineSquareCount);
-   }
+    }
    }
    //assign some mines
    assignMines(gf);
@@ -35,20 +35,16 @@ function layGrid(){
 $(".mine-square").on("click",".unchecked-square",function(event){
     event.preventDefault();
     event.stopPropagation();
+
     var adjacentMines = $(this).data('adjacentMines');
-    // $(this).removeClass("unchecked-square");
+
     $(this).parent().addClass("cleared-square");
-    //$(this).text(adjacentMines);
-    $(this).append('<span>'+adjacentMines+'</span>');
-    console.dir($(this));
+    $(this).text(adjacentMines);
 });
 $(".mine-square").on("click",".danger-square",function(event){
+    event.preventDefault();
     event.stopPropagation();
-    console.log('this: '+ $(this));
-    $(this).removeClass("danger-square");
-    $(this).parent().addClass("exploded-square")
-    console.dir($(this).closest('div'));
-
+    $(this).parent().addClass("exploded-square");
 });
 }
 
@@ -173,15 +169,15 @@ var getAdjacentMines = function(i,gf){
          mineCount+=1;
       };
   }
-  //check botton left corner
+  //check bottom left corner
   else if(i === ( gf * (gf-1) ) ){
-      if (checkForDanger(i-1) === true){
-         mineCount+=1;
-      };
       if (checkForDanger(i-gf) === true){
          mineCount+=1;
       };
       if (checkForDanger(i-gf+1) === true){
+         mineCount+=1;
+      };
+      if (checkForDanger(i+1) === true){
          mineCount+=1;
       };
   }
@@ -216,14 +212,14 @@ var getAdjacentMines = function(i,gf){
       };
   }
   //check right side
-  else if( i+1 % gf === 0){
-      if (checkForDanger(i-gf) === true){
+  else if( (i+1) % gf === 0){
+      if (checkForDanger(i-1) === true){
          mineCount+=1;
       };
       if (checkForDanger(i-gf-1) === true){
          mineCount+=1;
       };
-      if (checkForDanger(i-1) === true){
+      if (checkForDanger(i-gf) === true){
          mineCount+=1;
       };
       if (checkForDanger(i+gf-1) === true){
@@ -301,20 +297,14 @@ var getAdjacentMines = function(i,gf){
 }
 
 var checkForDanger = function(num){
-
   if($('#mine-square-'+num).children().hasClass('danger-square')){
     return true;
   };
   return false;
-
 }
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-
-
 });
-
-
