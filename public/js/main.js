@@ -71,7 +71,7 @@ $(".mine-square").on("open",".unchecked-square",function(event){
     $(this).text(adjacentMines);
     var squareIdNumber = $(this).parent().attr('id').split("-").pop();
     console.log('clearing mine number: ' + squareIdNumber);
-    $(this).parent().addClass("opens-adjacents");
+    $(this).addClass("opens-adjacents");
 });
 
 $(".mine-square").on("dblclick",".danger-square",function(event){
@@ -81,7 +81,7 @@ $(".mine-square").on("dblclick",".danger-square",function(event){
     $(this).removeClass("danger-square");
     $(this).parent().addClass("exploded-square");
 });
-$(".mine-square").on("click",".opens-adjacents", function(event){
+$(".mine-square").on("dblclick",".opens-adjacents", function(event){
     event.preventDefault();
     event.stopPropagation();
     var adjacentMines = $(this).data('adjacentMines');
