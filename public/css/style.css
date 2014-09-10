@@ -9,6 +9,7 @@
   -moz-box-shadow: 0 1px 3px #999;
   -webkit-box-shadow: 0 1px 3px #999;
   text-shadow: 0 -1px 1px #222;
+  vertical-align:top;
 }
 
 #game-count{
@@ -24,12 +25,31 @@
   -moz-box-shadow: 0 1px 3px #999;
   -webkit-box-shadow: 0 1px 3px #999;
   border-bottom: 1px solid #222;
+  vertical-align:top;
 }
 #validate-game{
   display: inline-block;
+  vertical-align:top;
 }
 #game-result{
-    display: inline-block;
+  background: #222;
+  display: inline-block;
+  padding: 5px 10px 6px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  line-height: 1;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #999;
+  -webkit-box-shadow: 0 1px 3px #999;
+  border-bottom: 1px solid #222;
+  vertical-align:top;
+}
+
+#cheat{
+  display: inline-block;
+  vertical-align:top;
 }
 
 #grid-container{
@@ -102,6 +122,14 @@
   position: relative;
   display: inline-block;
   vertical-align:top;
+}
+
+.cheat-square{
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+  vertical-align:top;
+  background-color: #FFD700;
 }
 
 button{

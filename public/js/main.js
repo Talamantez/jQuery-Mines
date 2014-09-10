@@ -1,13 +1,20 @@
 $(document).ready(function(){
 
+var gameCount = 0;
+var winCount = 0;
+var loseCount = 0;
+
 $('#game-result').hide();
 
 $("#new-game").on("click","button",layGrid);
 
-var gameCount=0;
+$("#validate-game").on("click","button",validateGame);
+
+$("#cheat").on("click","button", showMines);
 
 function layGrid(){
   //pick grid factor
+  $('#game-result').hide();
   var gf = 8;
   var mineSquareCount = 0;
    gameCount+=1;
@@ -82,6 +89,7 @@ $(".mine-square").on("dblclick",".danger-square",function(event){
     event.stopPropagation();
     $(this).text('boom');
     $('#game-result').html('Try Again!').slideDown();
+    loseCount += 1;
     $(this).removeClass("danger-square");
     $(this).parent().addClass("exploded-square");
 });
@@ -97,10 +105,17 @@ $(".mine-square").on("dblclick",".opens-adjacents", function(event){
 
 });
 
-$("#validate-game").on("click","button",validateGame);
-
 }
-
+function showMines(){
+  var dangerMines = [];
+  $.each($('.danger-square'),function(){
+      dangerMines.push(parseInt($(this).parent().attr('id').split('-').pop()) );
+  });
+  console.log(dangerMines);
+  for(var i=0;i<dangerMines.length;i+=1){
+        $('#mine-square-'+dangerMines[i]).find('div').addClass('cheat-square');
+      }
+  }
 function validateGame(){
    console.log('validating');
    console.log(checkMines());
@@ -119,6 +134,7 @@ function validateGame(){
 
     if(mineCheck && clearCheck){
       $('#game-result').html('You Won!').slideDown();
+      winCount +=1;
     } else {
       $('#game-result').html('Try Again!').slideDown();
     }
@@ -479,8 +495,6 @@ var openAdjacentMines = function(i,gf){
       $('#mine-square-' + (i + gf -1)).find("div").trigger("open");
     }
 }
-
-
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
