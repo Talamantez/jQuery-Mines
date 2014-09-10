@@ -25,6 +25,12 @@
   -webkit-box-shadow: 0 1px 3px #999;
   border-bottom: 1px solid #222;
 }
+#validate-game{
+  display: inline-block;
+}
+#game-result{
+    display: inline-block;
+}
 
 #grid-container{
   height:  80%;
@@ -92,7 +98,6 @@
 }
 
 .question-square{
-  background-color: #FF0000;
   padding: 0px;
   position: relative;
   display: inline-block;
@@ -116,3 +121,4 @@ button{
   position: relative;
   cursor: pointer;
 }
+

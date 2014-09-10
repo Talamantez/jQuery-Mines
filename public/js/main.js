@@ -1,7 +1,10 @@
 $(document).ready(function(){
 
+$('#game-result').hide();
+
 $("#new-game").on("click","button",layGrid);
-  var gameCount=0;
+
+var gameCount=0;
 
 function layGrid(){
   //pick grid factor
@@ -41,6 +44,7 @@ $(".mine-square").on("click",".unchecked-square",function(event){
 $(".mine-square").on("click",".danger-square",function(event){
     event.preventDefault();
     event.stopPropagation();
+    $(this).addClass('question-square');
     $(this).text('?');
 });
 
@@ -69,7 +73,6 @@ $(".mine-square").on("open",".unchecked-square",function(event){
     $(this).removeClass("unchecked-square");
     $(this).parent().addClass("cleared-square");
     $(this).text(adjacentMines);
-    var squareIdNumber = $(this).parent().attr('id').split("-").pop();
     console.log('clearing mine number: ' + squareIdNumber);
     $(this).addClass("opens-adjacents");
 });
@@ -78,6 +81,7 @@ $(".mine-square").on("dblclick",".danger-square",function(event){
     event.preventDefault();
     event.stopPropagation();
     $(this).text('boom');
+    $('#game-result').html('Try Again!').slideDown();
     $(this).removeClass("danger-square");
     $(this).parent().addClass("exploded-square");
 });
@@ -92,9 +96,66 @@ $(".mine-square").on("dblclick",".opens-adjacents", function(event){
     }
 
 });
+
+$("#validate-game").on("click","button",validateGame);
+
 }
 
-function assignMines(gf){
+function validateGame(){
+   console.log('validating');
+   console.log(checkMines());
+   var mineCheck = checkMines();
+   var clearCheck = checkCleared();
+   if(mineCheck){
+      console.log('all mines are marked');
+      }else{
+      console.log('not all mines are marked');
+      }
+   if(clearCheck){
+      console.log('all the empty squares are cleared');
+      }else{
+        console.log('you\'ve got to mark or clear every square');
+      }
+
+    if(mineCheck && clearCheck){
+      $('#game-result').html('You Won!').slideDown();
+    } else {
+      $('#game-result').html('Try Again!').slideDown();
+    }
+
+}
+
+var checkMines = function(){
+    var dangerMines = [];
+    $.each($('.danger-square'),function(){
+      dangerMines.push($(this).parent().attr('id').split('-').pop() );
+    })
+    console.log('checking danger mines: ' + dangerMines);
+    for(var i=0;i<dangerMines.length;i+=1){
+        if($('#mine-square-'+dangerMines[i]).find('div').hasClass('question-square')!== true){
+            return false;
+      }
+    }
+    return true;
+}
+
+var checkCleared = function(){
+    var clearedSquares = [];
+    $.each($('.mine-square'),function(){
+      clearedSquares.push($(this).attr('id').split('-').pop() );
+    })
+    console.log('checking squares that should be cleared: ' + clearedSquares);
+    for(var i=0;i<clearedSquares.length;i+=1){
+        if($('#mine-square-'+clearedSquares[i]).find('div').hasClass('danger-square')!== true){
+            if($('#mine-square-'+clearedSquares[i]).find('div').hasClass('opens-adjacents')!== true){
+            return false;
+      }
+    }
+  }
+    return true;
+}
+
+var assignMines = function(gf){
     var mine1 = getRandomInt(0,gf*gf);
     var mine2 = getRandomInt(0,gf*gf);
     if ( mine2 === mine1 ){
