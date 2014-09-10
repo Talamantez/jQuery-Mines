@@ -91,6 +91,7 @@ $(".mine-square").on("dblclick",".danger-square",function(event){
     $('#game-result').html('Try Again!').slideDown();
     loseCount += 1;
     $(this).removeClass("danger-square");
+    $(this).removeClass("cheat-square");
     $(this).parent().addClass("exploded-square");
 });
 $(".mine-square").on("dblclick",".opens-adjacents", function(event){
