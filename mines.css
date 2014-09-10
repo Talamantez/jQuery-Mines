@@ -48,7 +48,7 @@
   border: 4px solid #222;
   position: relative;
   display: inline-block;
-  float: left;
+  vertical-align:top;
 }
 
 .cleared-square{
@@ -56,7 +56,7 @@
   padding: 0px;
   position: relative;
   display: inline-block;
-  float: left;
+  vertical-align:top;
 }
 
 .exploded-square{
@@ -64,7 +64,7 @@
   padding: 0px;
   position: relative;
   display: inline-block;
-  float: left;
+  vertical-align:top;
 }
 
 .unchecked-square{
@@ -73,7 +73,7 @@
   padding: 0px;
   position: relative;
   display: inline-block;
-  float: left;
+  vertical-align:top;
 }
 
 .danger-square{
@@ -82,9 +82,16 @@
   padding: 0px;
   position: relative;
   display: inline-block;
-  float: left;
+  vertical-align:top;
 }
 
+.question-square{
+  background-color: #FF0000;
+  padding: 0px;
+  position: relative;
+  display: inline-block;
+  vertical-align:top;
+}
 
 button{
   background: #222;

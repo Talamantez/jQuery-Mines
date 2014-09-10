@@ -35,16 +35,42 @@ function layGrid(){
 $(".mine-square").on("click",".unchecked-square",function(event){
     event.preventDefault();
     event.stopPropagation();
-
-    var adjacentMines = $(this).data('adjacentMines');
-
-    $(this).parent().addClass("cleared-square");
-    $(this).text(adjacentMines);
+    $(this).text('?');
 });
+
 $(".mine-square").on("click",".danger-square",function(event){
     event.preventDefault();
     event.stopPropagation();
+    $(this).text('?');
+});
+
+$(".mine-square").on("dblclick",".unchecked-square",function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var adjacentMines = $(this).data('adjacentMines');
+    var squareIdNumber = $(this).parent().attr('id').split("-").pop();
+    $(this).removeClass("unchecked-square");
+    $(this).parent().addClass("cleared-square");
+    $(this).text(adjacentMines);
+
+    if(adjacentMines == '0'){
+      openAdjacentMines(squareIdNumber,8);
+    }
+    $(this).addClass("opens-adjacents");
+
+});
+
+$(".mine-square").on("dblclick",".danger-square",function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    $(this).text('boom');
+    $(this).removeClass("danger-square");
     $(this).parent().addClass("exploded-square");
+});
+$(".mine-square").on("click",".opens-adjacents", function(event){
+    event.preventDefault();
+    event.stopPropagation();
+
 });
 }
 
@@ -139,11 +165,11 @@ function assignMines(gf){
 
 var enumerateMineAdjacency = function(gf){
     for(var i=0;i<(gf*gf);i+=1){
-       getAdjacentMines(i,gf);
+       countAdjacentMines(i,gf);
     }
 };
 
-var getAdjacentMines = function(i,gf){
+var countAdjacentMines = function(i,gf){
   var mineCount = 0;
   //check top left corner
   if(i === 0){
@@ -302,6 +328,77 @@ var checkForDanger = function(num){
   };
   return false;
 }
+
+var openAdjacentMines = function(i,gf){
+  //check top left corner
+  if(i === 0){
+      $('#mine-square-' + 1).find("div").dblclick();
+      $('#mine-square-' + gf).find("div").dblclick();
+      $('#mine-square-' + (gf + 1)).find("div").dblclick();
+  }
+  //check top right corner
+  else if(i === (gf-1)) {
+      $('#mine-square-' + (i - 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf -1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf)).find("div").dblclick();
+  }
+  //check bottom left corner
+  else if(i === ( gf * (gf - 1) ) ){
+      $('#mine-square-' + (i - gf)).find("div").dblclick();
+      $('#mine-square-' + (i - gf +1)).find("div").dblclick();
+      $('#mine-square-' + (gf + 1)).find("div").dblclick();
+  }
+  //check bottom right corner
+  else if(i === ( (gf * gf) - 1 ) ){
+      $('#mine-square-' + (i - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf)).find("div").dblclick();
+  }
+  //check left side
+  else if( i % gf === 0){
+      $('#mine-square-' + (i - gf)).find("div").dblclick();
+      $('#mine-square-' + (i - gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf)).find("div").dblclick();
+  }
+  //check right side
+  else if( (i+1) % gf === 0){
+      $('#mine-square-' + (i - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf)).find("div").dblclick();
+      $('#mine-square-' + (i + gf)).find("div").dblclick();
+      $('#mine-square-' + (i + gf - 1)).find("div").dblclick();
+  }
+  //check top row
+    else if( i > 0 && i< gf){
+      $('#mine-square-' + (i - 1)).find("div").dblclick();
+      $('#mine-square-' + (i + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf)).find("div").dblclick();
+      $('#mine-square-' + (i + gf - 1)).find("div").dblclick();
+    }
+  //check bottom row
+    else if( i > (gf * (gf-1) ) && i < ((gf*gf)-1)){
+      $('#mine-square-' + (i - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf)).find("div").dblclick();
+      $('#mine-square-' + (i - gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + 1)).find("div").dblclick();
+    }
+  //check the rest
+    else{
+      $('#mine-square-' + (i - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i + gf)).find("div").dblclick();
+      $('#mine-square-' + (i + gf -1)).find("div").dblclick();
+    }
+}
+
+
 
 var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
