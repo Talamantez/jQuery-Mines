@@ -4,7 +4,11 @@
   width: 60%;
   padding: 30px;
   margin: 50px;
-  border-radius: 20px;
+   -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #999;
+  -webkit-box-shadow: 0 1px 3px #999;
+  text-shadow: 0 -1px 1px #222;
 }
 
 #game-count{
@@ -19,7 +23,6 @@
   -webkit-border-radius: 5px;
   -moz-box-shadow: 0 1px 3px #999;
   -webkit-box-shadow: 0 1px 3px #999;
-  text-shadow: 0 -1px 1px #222;
   border-bottom: 1px solid #222;
 }
 
@@ -45,7 +48,10 @@
   font-size: 1em;
   font-weight: bold;
   text-align: center;
-  border: 4px solid #222;
+   -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px #999;
+  -webkit-box-shadow: 0 1px 3px #999;
   position: relative;
   display: inline-block;
   vertical-align:top;

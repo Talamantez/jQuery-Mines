@@ -20,7 +20,7 @@ function layGrid(){
    }
    for(var i=0;i<columnCount;i+=1){
      for(var j=0;j<columnCount;j+=1){
-         $('#column-'+j).append("<div class = 'mine-square' id ='mine-square-"+mineSquareCount+"' ><div class='unchecked-square'></div></div>");
+         $('#column-'+j).append("<div class = 'mine-square' id ='mine-square-"+mineSquareCount+"' ><div class='unchecked-square'>"+mineSquareCount+"</div></div>");
          mineSquareCount += 1;
          console.log(mineSquareCount);
     }
@@ -52,12 +52,26 @@ $(".mine-square").on("dblclick",".unchecked-square",function(event){
     $(this).removeClass("unchecked-square");
     $(this).parent().addClass("cleared-square");
     $(this).text(adjacentMines);
-
+    var squareIdNumber = parseInt($(this).parent().attr('id').split("-").pop());
+    console.log('clearing mine number: ' + squareIdNumber);
     if(adjacentMines == '0'){
       openAdjacentMines(squareIdNumber,8);
     }
     $(this).addClass("opens-adjacents");
 
+});
+
+$(".mine-square").on("open",".unchecked-square",function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    var adjacentMines = $(this).data('adjacentMines');
+    var squareIdNumber = $(this).parent().attr('id').split("-").pop();
+    $(this).removeClass("unchecked-square");
+    $(this).parent().addClass("cleared-square");
+    $(this).text(adjacentMines);
+    var squareIdNumber = $(this).parent().attr('id').split("-").pop();
+    console.log('clearing mine number: ' + squareIdNumber);
+    $(this).parent().addClass("opens-adjacents");
 });
 
 $(".mine-square").on("dblclick",".danger-square",function(event){
@@ -70,6 +84,12 @@ $(".mine-square").on("dblclick",".danger-square",function(event){
 $(".mine-square").on("click",".opens-adjacents", function(event){
     event.preventDefault();
     event.stopPropagation();
+    var adjacentMines = $(this).data('adjacentMines');
+    var squareIdNumber = $(this).parent().attr('id').split("-").pop();
+    console.log('clearing mine number: ' + squareIdNumber);
+    if(adjacentMines == '0'){
+      openAdjacentMines(squareIdNumber,8);
+    }
 
 });
 }
@@ -332,69 +352,70 @@ var checkForDanger = function(num){
 var openAdjacentMines = function(i,gf){
   //check top left corner
   if(i === 0){
-      $('#mine-square-' + 1).find("div").dblclick();
-      $('#mine-square-' + gf).find("div").dblclick();
-      $('#mine-square-' + (gf + 1)).find("div").dblclick();
+      $('#mine-square-' + 1).find("div").trigger("open");
+      $('#mine-square-' + gf).find("div").trigger("open");
+      $('#mine-square-' + (gf + 1)).find("div").trigger("open");
   }
   //check top right corner
   else if(i === (gf-1)) {
-      $('#mine-square-' + (i - 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf -1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf)).find("div").dblclick();
+      $('#mine-square-' + (i - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf -1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf)).find("div").trigger("open");
   }
   //check bottom left corner
   else if(i === ( gf * (gf - 1) ) ){
-      $('#mine-square-' + (i - gf)).find("div").dblclick();
-      $('#mine-square-' + (i - gf +1)).find("div").dblclick();
-      $('#mine-square-' + (gf + 1)).find("div").dblclick();
+      $('#mine-square-' + (i - gf)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + 1)).find("div").trigger("open");
   }
   //check bottom right corner
   else if(i === ( (gf * gf) - 1 ) ){
-      $('#mine-square-' + (i - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf)).find("div").dblclick();
+      $('#mine-square-' + (i - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf)).find("div").trigger("open");
   }
   //check left side
   else if( i % gf === 0){
-      $('#mine-square-' + (i - gf)).find("div").dblclick();
-      $('#mine-square-' + (i - gf + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf)).find("div").dblclick();
+      $('#mine-square-' + (i - gf)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf)).find("div").trigger("open");
   }
   //check right side
-  else if( (i+1) % gf === 0){
-      $('#mine-square-' + (i - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf)).find("div").dblclick();
-      $('#mine-square-' + (i + gf)).find("div").dblclick();
-      $('#mine-square-' + (i + gf - 1)).find("div").dblclick();
+  else if( (i + 1) % gf === 0){
+      $('#mine-square-' + (i - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf - 1)).find("div").trigger("open");
   }
   //check top row
     else if( i > 0 && i< gf){
-      $('#mine-square-' + (i - 1)).find("div").dblclick();
-      $('#mine-square-' + (i + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf)).find("div").dblclick();
-      $('#mine-square-' + (i + gf - 1)).find("div").dblclick();
+      $('#mine-square-' + (i - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf - 1)).find("div").trigger("open");
     }
   //check bottom row
     else if( i > (gf * (gf-1) ) && i < ((gf*gf)-1)){
-      $('#mine-square-' + (i - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf)).find("div").dblclick();
-      $('#mine-square-' + (i - gf + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + 1)).find("div").dblclick();
+      $('#mine-square-' + (i - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + 1)).find("div").trigger("open");
     }
   //check the rest
     else{
-      $('#mine-square-' + (i - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf - 1)).find("div").dblclick();
-      $('#mine-square-' + (i - gf + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf + 1)).find("div").dblclick();
-      $('#mine-square-' + (i + gf)).find("div").dblclick();
-      $('#mine-square-' + (i + gf -1)).find("div").dblclick();
+      $('#mine-square-' + (i - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf - 1)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf)).find("div").trigger("open");
+      $('#mine-square-' + (i - gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf + 1)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf)).find("div").trigger("open");
+      $('#mine-square-' + (i + gf -1)).find("div").trigger("open");
     }
 }
 
