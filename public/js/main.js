@@ -1,16 +1,22 @@
 $(document).ready(function(){
+  game.init();
 
-var gameCount = 0;
-var winCount = 0;
-var loseCount = 0;
+});
 
-$('#game-result').hide();
 
-$("#new-game").on("click","button",layGrid);
+var game = {
+init: function(){
+  var gameCount = 0;
+  var winCount = 0;
+  var loseCount = 0;
 
-$("#validate-game").on("click","button",validateGame);
+  $('#game-result').hide();
 
-$("#cheat").on("click","button", showMines);
+  $("#new-game").on("click","button",layGrid);
+
+  $("#validate-game").on("click","button",validateGame);
+
+  $("#cheat").on("click","button", showMines);
 
 function layGrid(){
   //pick grid factor
@@ -501,4 +507,8 @@ var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
-});
+
+    }
+
+}
+
