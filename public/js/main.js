@@ -23,7 +23,7 @@ function layGrid(){
   var gf = 8;
   var mineSquareCount = 0;
    gameCount+=1;
-   $('#game-count').text('Game Count: '+gameCount);
+   $('#game-count').text('Game Count: '+ gameCount);
    $('#grid-container').empty();
     console.log('clicked');
     var columnCount = 0;
@@ -31,7 +31,7 @@ function layGrid(){
     for(var i=0;i<gf;i++){
 
      $('#grid-container').append("<div class = 'grid-column' id = 'column-"+columnCount+"'></div>");
-     columnCount+=1;
+     columnCount += 1;
    }
    for(var i=0;i<columnCount;i+=1){
      for(var j=0;j<columnCount;j+=1){
@@ -65,7 +65,7 @@ $(".mine-square").on("click",".question-square",function(){
     $(this).removeClass("question-square");
     $(this).removeClass("danger-square");
     $(this).removeClass("cheat-square");
-      $(this).text('boom');
+    $(this).text('boom');
     $(this).parent().addClass("exploded-square");
   }else{
     event.preventDefault();
@@ -130,13 +130,23 @@ $(".mine-square").on("dblclick",".danger-square",function(event){
     $(this).removeClass("cheat-square");
     $(this).parent().addClass("exploded-square");
 });
+$(".mine-square").on("open",".danger-square",function(event){
+    event.preventDefault();
+    event.stopPropagation();
+    $(this).text('boom');
+    $('#game-result').html('Try Again!').slideDown();
+    loseCount += 1;
+    $(this).removeClass("danger-square");
+    $(this).removeClass("cheat-square");
+    $(this).parent().addClass("exploded-square");
+});
 $(".mine-square").on("dblclick",".opens-adjacents", function(event){
     event.preventDefault();
     event.stopPropagation();
     var adjacentMines = $(this).data('adjacentMines');
     var squareIdNumber = $(this).parent().attr('id').split("-").pop();
     console.log('clearing mine number: ' + squareIdNumber);
-    if(adjacentMines == '0'){
+    if(adjacentMines === '0'){
       openAdjacentMines(squareIdNumber,8);
     }
 
