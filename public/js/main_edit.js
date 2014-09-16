@@ -51,39 +51,8 @@ $(".mine-square").on("click",".unchecked-square",function(event){
     event.preventDefault();
     event.stopPropagation();
     $(this).text('?');
-    $(this).removeClass('unchecked-square');
-    $(this).addClass('question-square');
 });
-$(".mine-square").on("click",".question-square",function(){
-  $(this).text('');
-    if ($(this).hasClass("danger-square")){
-    event.preventDefault();
-   // event.stopPropagation();
 
-    $('#game-result').html('Try Again!').slideDown();
-    loseCount += 1;
-    $(this).removeClass("question-square");
-    $(this).removeClass("danger-square");
-    $(this).removeClass("cheat-square");
-      $(this).text('boom');
-    $(this).parent().addClass("exploded-square");
-  }else{
-    event.preventDefault();
-   // event.stopPropagation();
-    console.log('.question-square' + ' clicked');
-    var adjacentMines = $(this).data('adjacentMines');
-    var squareIdNumber = $(this).parent().attr('id').split("-").pop();
-    $(this).removeClass("question-square");
-    $(this).parent().addClass("cleared-square");
-    $(this).text(adjacentMines);
-    var squareIdNumber = parseInt($(this).parent().attr('id').split("-").pop());
-    console.log('clearing mine number: ' + squareIdNumber);
-    if(adjacentMines == '0'){
-      openAdjacentMines(squareIdNumber,8);
-    }
-    $(this).addClass("opens-adjacents");
-}
-});
 $(".mine-square").on("click",".danger-square",function(event){
     event.preventDefault();
     event.stopPropagation();
